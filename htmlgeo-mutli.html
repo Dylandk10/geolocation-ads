@@ -1,0 +1,167 @@
+
+<!-- For wordpress element -->
+<html>
+    <div>
+        <img class="geoImage1">
+        <img class="geoImage1">
+        <img class="geoImage1">
+        <img class="geoImage1">
+    </div>
+
+<!-- For the END BODY script -->
+    <script>
+
+const LOCAL = 30;
+const HALF = 60;
+const FAR = 120;
+
+//FALLBACK image for geo ads that are not in the location of the user
+const FALLBACK = {
+    "class": "FALLBACK",
+    "img": "https://res.cloudinary.com/fivestarmedia/images/v1651851172/lacrosse/Large-App-Icon/Large-App-Icon.jpg?_i=AA",
+    "url": "https://fivestarapp.com/"
+}
+
+//list of sponsors that can be displayed 
+//class is for google analytics so it can be tracked 
+const sponsors = [
+    {
+        "class": "name1",
+        "lat": 42.37,
+        "long": -71.03,
+        "dist": LOCAL,
+        "img": "https://res.cloudinary.com/fivestarmedia/images/v1649865078/lacrosse/goalierat/goalierat.png?_i=AA",
+        "url": "https://www.google.com"
+    },
+    {
+        "class": "McGarvies",
+        "lat": 38.98,
+        "long": -76.49,
+        "dist": LOCAL, 
+        "img": "https://popmenucloud.com/cdn-cgi/image/width=640,height=640,format=png,fit=scale-down/rdfaylig/8fe92f22-03a8-4713-84ea-9f709aa69f52.jpeg",
+        "url": "https://www.mcgarveysannapolis.com/"
+    },
+    {
+        "class": "ACME",
+        "lat": 38.98,
+        "long": -76.49,
+        "dist": LOCAL, 
+        "img": "https://images.squarespace-cdn.com/content/537ffea2e4b011aa8abe92c9/1426776568929-CIPSZ1N0M3PYTWQUXBX4/ACME_MD-LOGO-compressor.png?content-type=image%2Fpng",
+        "url": "https://www.acmegrill.com/"  
+    },
+    {
+        "class": "cantlers",
+        "lat": 38.98,
+        "long": -76.49,
+        "dist": HALF, 
+        "img": "https://media-cdn.tripadvisor.com/media/photo-s/02/31/9b/eb/tray-of-crabs.jpg",
+        "url": "https://cantlers.com/"  
+    },
+    {
+        "class": "ambor",
+        "lat": 38.90,
+        "long": -77.036,
+        "dist": LOCAL, 
+        "img": "https://images.otstatic.com/prod1/47011657/3/large.jpg",
+        "url": "https://www.ambarrestaurant.com/"    
+    }
+]
+
+//options for geotracking
+const GEO_OPTIONS = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+//ask user for geo location with options
+window.navigator.geolocation.getCurrentPosition(successGeoLocation, failGeoLocation, GEO_OPTIONS);
+
+
+//if the user accepts geolocation
+function successGeoLocation(pos) {
+    let myLat = pos.coords.latitude;
+    console.log(pos);
+    let myLong = pos.coords.longitude;
+    console.log(`My cords Lat: ${myLat} long: ${myLong}`);
+    let possibleSponsors = [];
+    let displaySponsor = undefined;
+    //loop through sponsors
+    for(let i = 0; i < sponsors.length; i++) {
+        let curr = distance(myLat, myLong, sponsors[i].lat, sponsors[i].long, "M");
+        if(curr < sponsors[i].dist) {
+            possibleSponsors.push(sponsors[i]);
+        }
+    }
+
+    //display a random sponsor if the list is not 0 else display the fallback
+    if(possibleSponsors.length > 0) {
+        displayAds(possibleSponsors);
+    } else {
+        displayFallback(FALLBACK);
+    }
+}
+
+
+//if user deinies geolocation
+function failGeoLocation(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+    displayFallback(FALLBACK);
+}
+
+
+
+//get distance between user and sponsor
+function distance(lat1, lon1, lat2, lon2, unit) {
+    var radlat1 = Math.PI * lat1/180
+    var radlat2 = Math.PI * lat2/180
+    var radlon1 = Math.PI * lon1/180
+    var radlon2 = Math.PI * lon2/180
+    var theta = lon1-lon2
+    var radtheta = Math.PI * theta/180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180/Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit=="K") { dist = dist * 1.609344 }
+    if (unit=="N") { dist = dist * 0.8684 }
+    console.log(dist)
+    return dist
+}
+
+
+//display fallback
+function displayFallback(obj) {
+    let img = obj.img;
+    let className = obj.class;
+    let url = obj.url;
+
+    let elements = document.querySelectorAll(".geoImage1");
+    if (elements.length > 0) {
+        for(let i = 0; i < elements.length; i++) {
+            elements[i].src = img;
+            elements[i].classList.add(className);
+            elements[i].onclick = function() {
+                window.open(url, "_blank");  
+            }
+        }
+    }
+}
+
+//display ads 
+function displayAds(arr) {
+    let elements = document.querySelectorAll(".geoImage1");
+    if(elements.length > 0) {
+        for(let i = 0; i < elements.length; i++) {
+            let rand = Math.floor(Math.random()*arr.length);
+            elements[i].src = arr[rand].img;
+            elements[i].classList.add(arr[rand].class);
+            elements[i].onclick = function() {
+                window.open(arr[rand].url, "_blank");
+            }
+        }
+    }
+}
+
+    </script>
+</html>
