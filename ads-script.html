@@ -1,0 +1,87 @@
+
+<!-- For wordpress element -->
+<html>
+    <div>
+        <img class="adImageSmall">
+        <img class="adImageLarge">
+        <img class="adImageSmall">
+        <img class="adImageLarge">
+    </div>
+
+<!-- For the END BODY script -->
+    <script>
+
+
+
+
+//list of sponsors that can be displayed banner 720x90
+const sponsorsSmallVert = [
+    {
+        "class": "ocLax",
+        "img": "https://res.cloudinary.com/fivestarmedia/images/w_2560,h_317/v1649699099/lacrosse/OC-LAX-OPEN_728x90_369669a6d15/OC-LAX-OPEN_728x90_369669a6d15.jpg?_i=AA",
+        "url": "https://www.oclaxopen.com/"
+    },
+    {
+        "class": "hoboLax",
+        "img": "https://res.cloudinary.com/fivestarmedia/images/v1654266188/lacrosse/728x90/728x90.gif?_i=AA",
+        "url": "https://hobolax.com/?utm_source=Laxallstars&utm_medium=Banner+Ads&utm_campaign=Laxallstars+ads"
+    }
+];
+
+
+//for the larger vertical banner 970x250
+const sponsorsLargeVert = [
+    {
+        "class": "spireLax",
+        "img": "https://res.cloudinary.com/fivestarmedia/images/v1654549762/lacrosse/IL_970x250_37003197bfe/IL_970x250_37003197bfe.jpg?_i=AA",
+        "url": "https://www.spireinstitute.org/"
+    },
+    {
+        "class": "fivestarBanner",
+        "img": "https://res.cloudinary.com/fivestarmedia/images/v1654549926/lacrosse/FIVESTAR-Web-Banner-970x250-1_370032acb99/FIVESTAR-Web-Banner-970x250-1_370032acb99.png?_i=AA",
+        "url": "https://fivestarapp.onelink.me/7kih/264756ec"
+    },
+    {
+        "class": "hoboLax",
+        "img": "https://res.cloudinary.com/fivestarmedia/images/v1653570381/lacrosse/970x250-1/970x250-1.gif?_i=AA",
+        "url": "https://hobolax.com/?utm_source=Laxallstars&utm_medium=Banner+Ads&utm_campaign=Laxallstars+ads"  
+    }
+];
+
+
+
+//display ads 
+function displaySmallAds(arr) {
+    let elements = document.querySelectorAll(".adImageSmall");
+    if(elements.length > 0) {
+        for(let i = 0; i < elements.length; i++) {
+            let rand = Math.floor(Math.random()*arr.length);
+            elements[i].src = arr[rand].img;
+            elements[i].classList.add(arr[rand].class);
+            elements[i].onclick = function() {
+                window.open(arr[rand].url, "_blank");
+            }
+        }
+    }
+}
+
+function displayLargeAds(arr) {
+    let elements = document.querySelectorAll(".adImageLarge");
+    if(elements.length > 0) {
+        for(let i = 0; i < elements.length; i++) {
+            let rand = Math.floor(Math.random()*arr.length);
+            elements[i].src = arr[rand].img;
+            elements[i].classList.add(arr[rand].class);
+            elements[i].onclick = function() {
+                window.open(arr[rand].url, "_blank");
+            }
+        }
+    }
+}
+
+//call to display ads 
+displaySmallAds(sponsorsSmallVert);
+displayLargeAds(sponsorsLargeVert);
+
+    </script>
+</html>
