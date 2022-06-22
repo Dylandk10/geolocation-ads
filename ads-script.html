@@ -2,10 +2,12 @@
 <!-- For wordpress element -->
 <html>
     <div>
-        <img class="adImageSmall">
-        <img class="adImageLarge">
-        <img class="adImageSmall">
-        <img class="adImageLarge">
+        <img class="adImageSmall clickableBanner" />
+        <img class="adImageLarge clickableBanner" />
+        <img class="adImageSmall clickableBanner" />
+        <img class="adImageLarge clickableBanner" />
+		<br>
+		<img class="hoboLaxAds clickableBanner" /> 
     </div>
 
 <!-- For the END BODY script -->
@@ -25,7 +27,22 @@ const sponsorsSmallVert = [
         "class": "hoboLax",
         "img": "https://res.cloudinary.com/fivestarmedia/images/v1654266188/lacrosse/728x90/728x90.gif?_i=AA",
         "url": "https://hobolax.com/?utm_source=Laxallstars&utm_medium=Banner+Ads&utm_campaign=Laxallstars+ads"
-    }
+    },
+	{
+        "class": "demoshpere",
+        "img": "https://laxallstars.com/wp-content/uploads/2022/06/LAX-728-x-90-gif.gif",
+        "url": "https://bit.ly/3Jkqiay"
+    },
+	{
+		"class": "spireLax",
+        "img": "https://laxallstars.com/wp-content/uploads/2022/06/IL_728x90.jpg",
+        "url": "https://www.spireinstitute.org/"
+	},
+	{
+		"class": "fivestarBanner",
+        "img": "https://laxallstars.com/wp-content/uploads/2022/06/Web-Banner-728x90-1.png",
+        "url": "https://fivestarapp.onelink.me/7kih/264756ec"
+	}
 ];
 
 
@@ -45,7 +62,13 @@ const sponsorsLargeVert = [
         "class": "hoboLax",
         "img": "https://res.cloudinary.com/fivestarmedia/images/v1653570381/lacrosse/970x250-1/970x250-1.gif?_i=AA",
         "url": "https://hobolax.com/?utm_source=Laxallstars&utm_medium=Banner+Ads&utm_campaign=Laxallstars+ads"  
+    },
+	{
+        "class": "demoshpere",
+        "img": "https://laxallstars.com/wp-content/uploads/2022/06/LAX-970-x-250-gif.gif",
+        "url": "https://bit.ly/3Jkqiay"
     }
+	
 ];
 
 
@@ -65,6 +88,7 @@ function displaySmallAds(arr) {
     }
 }
 
+//display larger vertical ads 
 function displayLargeAds(arr) {
     let elements = document.querySelectorAll(".adImageLarge");
     if(elements.length > 0) {
@@ -79,9 +103,24 @@ function displayLargeAds(arr) {
     }
 }
 
+//call to display specific ads right now is hobo lax
+function displaySpecificAds() {
+    let elements = document.querySelectorAll(".hoboLaxAds");
+    if(elements.length > 0) {
+        for(let i = 0; i < elements.length; i++) {
+            elements[i].src = sponsorsSmallVert[1].img;
+            elements[i].classList.add(sponsorsSmallVert[1].class);
+            elements[i].onclick = function() {
+                window.open(sponsorsSmallVert[1].url, "_blank");
+            }
+        }
+    }
+}
+
 //call to display ads 
 displaySmallAds(sponsorsSmallVert);
 displayLargeAds(sponsorsLargeVert);
+displaySpecificAds();
 
     </script>
 </html>
